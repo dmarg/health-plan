@@ -36,12 +36,12 @@
             <i class='icon ion-navicon'></i>
           </button>
           <h1 class="title">{{ activeDay.date }}</h1>
-          <button class="button button-icon" ng-click="dayDetails()">
+          <button class="button button-icon" ng-click="openDayDetails()">
             <i class="icon ion-compose"></i>
           </button>
         </ion-header-bar>
         <ion-content>
-          <div class="card" ng-repeat="plan in activeDay.plans">
+          <div class="card" ng-repeat="plan in activeDay.details.plans">
             <div class="item">
               {{ plan.what }}
             </div>
@@ -58,22 +58,44 @@
       <!-- Left menu -->
       <ion-side-menu side="left">
         <ion-header-bar class="bar-dark">
+          <button class="button button-icon ion-ios7-minus-outline" ng-click="toggleEditDays()">
+          </button>
           <h1 class="title">Days</h1>
           <button class="button button-icon ion-plus-circled" ng-click="newDatePicker()"></button>
         </ion-header-bar>
         <ion-content class="dark">
-          <<ion-list>
-            <ion-item ng-repeat="day in days" ng-click="selectDay(day, $index)" ng-class="{active: activeDay == day}">
+          <ion-list>
+            <ion-item ng-repeat="day in days" ng-click="selectDay(day, $index)" ng-class="{active: activeDay == day}" class="dayMenu">
+              <i ng-show="deleteDate" class="ion-minus-circled" ng-click="deleteDay($index)"></i>
               {{ day.date }}
-            </ion-list>
+            </ion-item>
+          </ion-list>
         </ion-content>
       </ion-side-menu>
 
       <script id="date-picker.html" type="text/ng-template">
-        <div class=Modal>
-          <form ng-submit="">
-            <input type="date">
-          </form>
+        <div class="Modal">
+          <!-- Modal Header Bar -->
+          <ion-header-bar class="bar-secondary">
+            <h1 class="title">
+              Pick a Date
+            </h1>
+            <button class="button button-clear button-assertive" ng-click="closeDatePicker()">
+              Cancel
+            </button>
+          </ion-header-bar>
+
+          <ion-content>
+            <form ng-submit="newDay(date)">
+              <div class="padding">
+                <input id="dateselect" type="date" ng-model="date.date">
+              </div>
+              <div class="padding">
+                <button type="submit" class="button button-block button-assertive">Submit</button>
+              </div>
+            </form>
+          </ion-content>
+
         </div>
       </script>
 
@@ -86,7 +108,7 @@
               Day Details
             </h1>
 
-            <button class="button button-clear button-assertive" ng-click="closeNewDay()">
+            <button class="button button-clear button-assertive" ng-click="closeDayDetails()">
               Cancel
             </button>
           </ion-header-bar>
@@ -94,17 +116,29 @@
           <!-- Day Detail -->
           <ion-content>
 
-            <form ng-submit="createDay(day)">
+            <form ng-submit="editDayDetails(day)">
               <div class="list">
-                <label class="item item-input">
-                  <input type="text" placeholder="What is going to happen today?" ng-model="day.plans.what">
+
+                <label for="planWhat" class="item item-input">What is going to happen today?
                 </label>
+                <input type="text" id="planWhat" ng-model="day.plan.what">
+
+                <label for="planWhen" class="item item-input">When is it going to happen?
+                </label>
+                <input type="text" id="planWhen" ng-model="day.plan.when">
+
+                <label for="planKnow" class="item item-input">What do I need to know?
+                </label>
+                <input type="text" id="planKnow" ng-model="day.plan.know">
+
               </div>
               <div class="padding">
                 <button type="submit" class="button button-block button-assertive">Submit</button>
               </div>
             </form>
           </ion-content>
+
+        </div>
 
       </script>
 

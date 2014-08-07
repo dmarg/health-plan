@@ -18,6 +18,58 @@ $dark:                            #444 !default;
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
+$dark: #3f4041;
+
+.dark {
+  background-color: #3f4041 !important;
+  color: #ffffff;
+  .scroll-content {
+    background-color: #3f4041 !important;
+  }
+  .item {
+    background-color: $dark;
+    border: none;
+    border-top: 1px solid #464646;
+    border-bottom: 2px solid #333333;
+    padding: 20px;
+    color: #F0F1F1;
+    max-height: none;
+
+    &:last-child {
+      border-bottom: 1px solid #333333;
+    }
+    &.current{ background-color:darken( $dark, 10% )   !important;
+       border-top: 1px solid #464646 !important;
+    border-bottom: 2px solid #333333 !important;
+      p,h3{opacity: .7;}
+            }
+  }
+  h2,
+  h3,
+  p,
+  a{
+    color: #F0F1F1;
+  }
+}
+.dark-head {
+  text-decoration: none;
+}
+
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
+.item.active {
+  color: #FFF;
+  background-color: #777777;
+}
+
+.dayMenu {
+  font-size: 150%;
+
+  i {
+    font-size: 150%;
+    color: $assertive;
+    margin-right: 30px;
+    margin-left: -4px;
+  }
+}

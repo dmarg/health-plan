@@ -18,9 +18,9 @@ angular.module('healthPlan')
           date: date,
           details: {
             plans: [],
-            questions: {},
+            questions: [],
             medTeam: [],
-            journals: []}
+            notes: []}
         }
       },
       getLastActiveIndex: function() {
