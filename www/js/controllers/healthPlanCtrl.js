@@ -22,7 +22,7 @@ angular.module('healthPlan')
         createDay(day);
       }
 
-      day.date = "";
+      date.date = "";
 
       $scope.closeDatePicker();
       $scope.toggleDays();
@@ -30,14 +30,39 @@ angular.module('healthPlan')
 
     // Called to delete a day
     $scope.deleteDay = function(index) {
-      $scope.days.splice(index, 1);
-      Days.save($scope.days);
+      var deleteDayConfirm = confirm("Are you sure you want to delete " + $scope.days[index].date + "?");
+
+      if (deleteDayConfirm === true) {
+        $scope.days.splice(index, 1);
+        Days.save($scope.days);
+        if(index === Days.getLastActiveIndex()) {
+          if (index === 0 && $scope.days.length > 0) {
+            Days.setLastActiveIndex(index);
+            $scope.activeDay = $scope.days[Days.getLastActiveIndex()];
+          } else if(index <= 0) {
+            $scope.newDatePicker();
+          } else {
+            Days.setLastActiveIndex(index-1);
+            $scope.activeDay = $scope.days[Days.getLastActiveIndex()];
+          }
+        }
+      } else {
+        $ionicSideMenuDelegate.toggleLeft(true);
+      }
     };
 
+    // Toggle Edit/Delete Day Button
     $scope.toggleEditDays = function() {
       if($scope.deleteDate === false) {
         $scope.deleteDate = true;
       } else {
+        $scope.deleteDate = false;
+      }
+    };
+
+    // Turn off delete days
+    $scope.turnOffEditDaysButtons = function() {
+      if($scope.deleteDate === true) {
         $scope.deleteDate = false;
       }
     };
@@ -47,10 +72,7 @@ angular.module('healthPlan')
       $scope.activeDay = day;
       Days.setLastActiveIndex(index);
       $ionicSideMenuDelegate.toggleLeft(false);
-
-      if($scope.deleteDate === true) {
-        $scope.deleteDate = false;
-      }
+      $scope.turnOffEditDaysButtons();
     };
 
     // Create and Load Modal
@@ -98,6 +120,7 @@ angular.module('healthPlan')
 
     // Open Date Picker Modal
     $scope.newDatePicker = function() {
+      $scope.turnOffEditDaysButtons();
       $scope.datePickerModal.show();
       // angular.element("#dateselect").focus();
     }
@@ -108,20 +131,13 @@ angular.module('healthPlan')
 
     $scope.toggleDays = function() {
       $ionicSideMenuDelegate.toggleLeft();
-      if($scope.deleteDate === true) {
-        $scope.deleteDate = false;
-      }
+      $scope.turnOffEditDaysButtons();
     };
 
-    $timeout(function() {
-      if($scope.days.length == 0) {
-        while(true) {
-          var day = prompt("Date:");
-          if(day) {
-            createDay(day);
-            break;
-          }
-        }
+
+    $scope.$watch('days', function() {
+      if($scope.days.length === 0 || undefined) {
+        $scope.newDatePicker();
       }
     });
 
