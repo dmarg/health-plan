@@ -1,0 +1,26 @@
+
+<!-- Modal Header Bar -->
+<ion-header-bar class="bar-secondary">
+  <h1 class="title">
+    Pick a Date
+  </h1>
+  <button class="button button-clear button-assertive" ng-click="closeDatePicker()" ng-hide="days.length === 0 || undefined">
+    Cancel
+  </button>
+</ion-header-bar>
+
+<ion-content>
+  <form ng-submit="newDay(date)">
+    <div class="list">
+      <div class="item item-input-inset">
+        <label class="item-input-wrapper">
+          <input type="date" placeholder="Date" ng-model="date.date">
+        </label>
+        <button type="submit" class="button button-small button-assertive">
+          Submit
+        </button>
+      </div>
+    </div>
+  </form>
+</ion-content>
+

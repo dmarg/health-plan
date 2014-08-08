@@ -1,0 +1,36 @@
+
+<!-- Modal Header Bar -->
+<ion-header-bar class="bar-secondary">
+  <h1 class="title">
+    Day Details
+  </h1>
+
+  <button class="button button-clear button-assertive" ng-click="closeDayPlans()">
+    Cancel
+  </button>
+</ion-header-bar>
+
+<!-- Day Detail -->
+<ion-content>
+
+  <form ng-submit="editDayDetails(day)">
+    <div class="list">
+
+      <label for="planWhat" class="item item-input">What is going to happen today?
+      </label>
+      <input type="text" id="planWhat" ng-model="day.plan.what">
+
+      <label for="planWhen" class="item item-input">When is it going to happen?
+      </label>
+      <input type="text" id="planWhen" ng-model="day.plan.when">
+
+      <label for="planKnow" class="item item-input">What do I need to know?
+      </label>
+      <input type="text" id="planKnow" ng-model="day.plan.know">
+
+    </div>
+    <div class="padding">
+      <button type="submit" class="button button-block button-assertive">Submit</button>
+    </div>
+  </form>
+</ion-content>

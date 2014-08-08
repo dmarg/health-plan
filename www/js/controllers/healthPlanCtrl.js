@@ -15,6 +15,23 @@ angular.module('healthPlan')
     // Grab the last active, or the first day
     $scope.activeDay = $scope.days[Days.getLastActiveIndex()];
 
+
+    // Right Side Menu
+    $scope.composeMenu = [{
+      'title': "New Plan",
+      'compose': function() {
+          $ionicSideMenuDelegate.toggleRight(false);
+          return $scope.composeDayPlans();
+        }
+      }, {
+      'title': "New Question",
+      'compose': function() {
+          $ionicSideMenuDelegate.toggleRight(false);
+          return $scope.composeDayQuestions();
+        }
+      }
+    ];
+
     // Called to create a new day
     $scope.newDay = function(date) {
       var day = date.date
@@ -76,8 +93,8 @@ angular.module('healthPlan')
     };
 
     // Create and Load Modal
-    $ionicModal.fromTemplateUrl('day-details.html', function(modal) {
-      $scope.dayDetailsModal = modal;
+    $ionicModal.fromTemplateUrl('day-plans.html', function(modal) {
+      $scope.dayPlansModal = modal;
     }, {
       scope: $scope
     });
@@ -99,7 +116,7 @@ angular.module('healthPlan')
         know: day.plan.know
       });
 
-      $scope.dayDetailsModal.hide();
+      $scope.dayPlansModal.hide();
 
       // Inefficient, but save all the days
       Days.save($scope.days);
@@ -110,12 +127,12 @@ angular.module('healthPlan')
     };
 
     // Open our day details modal
-    $scope.openDayDetails = function() {
-      $scope.dayDetailsModal.show();
+    $scope.composeDayPlans = function() {
+      $scope.dayPlansModal.show();
     }
     // Close day details modal
-    $scope.closeDayDetails = function() {
-      $scope.dayDetailsModal.hide();
+    $scope.closeDayPlans = function() {
+      $scope.dayPlansModal.hide();
     }
 
     // Open Date Picker Modal
@@ -134,7 +151,11 @@ angular.module('healthPlan')
       $scope.turnOffEditDaysButtons();
     };
 
+    $scope.toggleCompose = function() {
+      $ionicSideMenuDelegate.toggleRight();
+    };
 
+    // Watch Days Array and Show Date Picker if empty
     $scope.$watch('days', function() {
       if($scope.days.length === 0 || undefined) {
         $scope.newDatePicker();

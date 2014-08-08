@@ -25,6 +25,7 @@
     <script src="js/controllers/healthPlanCtrl.js"></script>
     <script src="js/services/daysFactory.js"></script>
   </head>
+
   <body ng-app="healthPlan" ng-controller="HealthPlanCtrl">
 
     <ion-side-menus>
@@ -36,13 +37,14 @@
             <i class='icon ion-navicon'></i>
           </button>
           <h1 class="title">{{ activeDay.date }}</h1>
-          <button class="button button-icon" ng-click="openDayDetails()" ng-disabled="days.length === 0">
+          <button class="button button-icon" ng-click="toggleCompose()" ng-disabled="days.length === 0">
             <i class="icon ion-compose"></i>
           </button>
         </ion-header-bar>
         <ion-content>
           <div class="card" ng-repeat="plan in activeDay.details.plans">
             <div class="item">
+              <span>What is going to happen today?</span>
               {{ plan.what }}
             </div>
             <div class="item">
@@ -73,78 +75,29 @@
         </ion-content>
       </ion-side-menu>
 
+      <!-- Right menu -->
+      <ion-side-menu side="right">
+        <ion-header-bar class="bar-stable">
+          <h1 class="title">Compose</h1>
+        </ion-header-bar>
+        <ion-content>
+          <ion-list>
+            <span ng-repeat="compose in composeMenu">
+              <span class="item" ng-click="compose.compose()">{{ compose.title }}</span>
+            </span>
+          </ion-list>
+        </ion-content>
+      </ion-side-menu>
+
+
+      <!-- Date Picker Modal  -->
       <script id="date-picker.html" type="text/ng-template">
-        <div class="Modal">
-
-          <!-- Modal Header Bar -->
-          <ion-header-bar class="bar-secondary">
-            <h1 class="title">
-              Pick a Date
-            </h1>
-            <button class="button button-clear button-assertive" ng-click="closeDatePicker()" ng-hide="days.length === 0 || undefined">
-              Cancel
-            </button>
-          </ion-header-bar>
-
-          <ion-content>
-            <form ng-submit="newDay(date)">
-              <div class="list">
-                <div class="item item-input-inset">
-                  <label class="item-input-wrapper">
-                    <input type="date" placeholder="Date" ng-model="date.date">
-                  </label>
-                  <button type="submit" class="button button-small button-assertive">
-                    Submit
-                  </button>
-                </div>
-              </div>
-            </form>
-          </ion-content>
-
-        </div>
+        <div class="Modal" ng-include src="'partials/date-picker-modal.html'"></div>
       </script>
 
-      <script id="day-details.html" type="text/ng-template">
-        <div class="modal">
-
-          <!-- Modal Header Bar -->
-          <ion-header-bar class="bar-secondary">
-            <h1 class="title">
-              Day Details
-            </h1>
-
-            <button class="button button-clear button-assertive" ng-click="closeDayDetails()">
-              Cancel
-            </button>
-          </ion-header-bar>
-
-          <!-- Day Detail -->
-          <ion-content>
-
-            <form ng-submit="editDayDetails(day)">
-              <div class="list">
-
-                <label for="planWhat" class="item item-input">What is going to happen today?
-                </label>
-                <input type="text" id="planWhat" ng-model="day.plan.what">
-
-                <label for="planWhen" class="item item-input">When is it going to happen?
-                </label>
-                <input type="text" id="planWhen" ng-model="day.plan.when">
-
-                <label for="planKnow" class="item item-input">What do I need to know?
-                </label>
-                <input type="text" id="planKnow" ng-model="day.plan.know">
-
-              </div>
-              <div class="padding">
-                <button type="submit" class="button button-block button-assertive">Submit</button>
-              </div>
-            </form>
-          </ion-content>
-
-        </div>
-
+      <!-- Day Plans Modal -->
+      <script id="day-plans.html" type="text/ng-template">
+        <div class="modal" ng-include src="'partials/day-plans-modal.html'"></div>
       </script>
 
 
