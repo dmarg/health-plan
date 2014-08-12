@@ -41,18 +41,36 @@
             <i class="icon ion-compose"></i>
           </button>
         </ion-header-bar>
+
         <ion-content>
+
+          <div class="item item-divider">
+            <h1 class="title">Plans for the day</h1>
+          </div>
+
           <div class="card" ng-repeat="plan in activeDay.details.plans">
-            <div class="item">
-              <span>What is going to happen today?</span>
-              {{ plan.what }}
+
+            <div ng-show="plan.what.length > 0">
+              <span class="item item-divider">What is going to happen today?</span>
+              <div class="item">
+                {{ plan.what }}
+              </div>
             </div>
-            <div class="item">
-              {{ plan.when }}
+
+            <div ng-show="plan.when.length > 0">
+              <span class="item item-divider">When is it going to happen?</span>
+              <div class="item">
+                {{ plan.when }}
+              </div>
             </div>
-            <div class="item">
-              {{ plan.know }}
+
+            <div ng-show="plan.know.length > 0">
+              <span class="item item-divider">What do I need to know?</span>
+              <div class="item">
+                {{ plan.know }}
+              </div>
             </div>
+
           </div>
         </ion-content>
       </ion-side-menu-content>
